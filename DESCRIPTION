@@ -1,4 +1,4 @@
-Package: LEEF.measurement.template
+Package: LEEF.archive.default
 Type: Package
 Title: Pre-process and extract template
 Version: 0.2.0

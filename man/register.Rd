@@ -4,7 +4,7 @@
 \alias{register}
 \title{Register the processing of respirometer data in the LEEF.Data package}
 \usage{
-register()
+register(compression)
 }
 \value{
 invisibly \code{TRUE} when completed successful
