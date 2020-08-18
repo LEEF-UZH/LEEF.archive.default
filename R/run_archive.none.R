@@ -27,7 +27,7 @@ run_archive <- function(
   ##
   timestamp <- format( Sys.time() , "%Y-%m-%d--%H-%M-%S" )
   archivename <- paste(
-    options()$LEEF.Data$archive$name,
+    options()$LEEF$archive$name,
     timestamp,
     sep = "."
   )
