@@ -10,28 +10,36 @@
 #'
 #' @examples
 #' \dontrun{
-#' run_archive.none(
+#' run_archive_none(
 #'   input = "./input",
 #'   output = "./output"
 #' )
 #' }
-run_archive <- function(
+run_archive_none <- function(
   input,
   output
 ){
-  hashdir <- tmpfile()
-  hash_directory(
-    input = archivedir,
-    output = hashdir
-  )
-  ##
   timestamp <- format( Sys.time() , "%Y-%m-%d--%H-%M-%S" )
+  ##
+
+  archivename <- options()$LEEF$archive$name
+  if (is.null(archivename)) {
+    archivename <- "none"
+  }
   archivename <- paste(
-    options()$LEEF$archive$name,
+    archivename,
     timestamp,
     sep = "."
   )
   archivedir <- file.path( output, archivename )
+  ##
+  hashdir <- tempfile()
+  hash_directory(
+    input = input,
+    output = hashdir
+  )
+  ##
+
   dir.create( path = archivedir, showWarnings = FALSE, recursive = TRUE )
   ##
   file.copy(
@@ -49,5 +57,5 @@ run_archive <- function(
   )
   unlink(hashdir, recursive = TRUE)
   ##
-  invisible(archivedir)
+  invisible(normalizePath(archivedir))
 }

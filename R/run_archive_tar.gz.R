@@ -26,7 +26,7 @@
 #'   get_tts = TRUE
 #' )
 #' }
-run_archive <- function(
+run_archive_tar.gz <- function(
   input,
   output
 ){
@@ -35,35 +35,39 @@ run_archive <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive.none( input = input, output = tmpfile() )
+  input <- run_archive_none( input = input, output = tempfile() )
   ##
   archivename <- paste(
-    input,
+    basename(input),
     "tar.gz",
     sep = "."
   )
-  archivefile <- file.path( tmpfile(), archivename)
+  tmpdir <- tempfile()
+  dir.create( tmpdir)
+  tarfile <- file.path( tmpdir, archivename)
+
   ##
 
 # Tar input directory -----------------------------------------------------
 
-  oldwd <- setwd(input)
+  oldwd <- setwd(dirname(input))
   utils::tar(
-    tarfile = archivefile,
+    tarfile = tarfile,
     files = "./",
     compression = "gz",
     compression_level = 9
   )
   setwd(oldwd)
 
-# Hash tar.gz file --------------------------------------------------------
+# Hash tar file -----------------------------------------------------------
 
-  f <- file( archivefile, open = "rb" )
+  f <- file( tarfile, open = "rb" )
   hash <- as.character( openssl::sha256( f ) )
   close(f)
   rm(f)
   hashln <- paste(hash, archivename, sep = "  ")
-  hashfile <- paste0(archivefile, ".sha256")
+  hashfile <- paste0(tarfile, ".sha256")
+  file.create(hashfile)
   f <- file( hashfile )
   writeLines(
     text = hashln,
@@ -77,12 +81,12 @@ run_archive <- function(
   dir.create( path = output, showWarnings = FALSE, recursive = TRUE )
   ##
   file.copy(
-    from = c(archivefile, hashfile),
+    from = c(tarfile, hashfile),
     to = output,
     copy.date = TRUE
   )
 
-  unlink(dirname(archivefile), recursive = TRUE)
+  unlink(dirname(tarfile), recursive = TRUE)
 
 # Return ------------------------------------------------------------------
 

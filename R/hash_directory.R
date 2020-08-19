@@ -25,81 +25,150 @@ hash_directory <- function(
   input,
   output
 ){
-
-  # Helper function ---------------------------------------------------------
-
-  hash_in_dir <- function(
-    dir,
-    recursiveHash = FALSE
-  ) {
-    new_files <- list.files(
-      path = dir,
-      recursive = recursiveHash
-    )
-    if (length(new_files) == 0) {
-      return()
-    }
-    new_files <- sort(new_files)
-
-    filehash <- file.path( dir, "file.sha256" )
-    dirhash  <- file.path( dir, "dir.sha256" )
-
-    # Hash create files.sha256 ----------------------------------------------
-
-    hash <- lapply(
-      new_files,
-      function(fn) {
-        fnc <- file.path( dir, fn )
-        f <- file( fnc, open = "rb" )
-        hash <- as.character( openssl::sha256( f ) )
-        close(f)
-        rm(f)
-        hash <- paste(hash, fn, sep = "  ")
-      }
-    )
-    hash <- simplify2array(hash)
-    f <- file( file.path( output, filehash ) )
-    writeLines(
-      text = hash,
-      con = f
-    )
-    close(f)
-    rm(f)
-
-    # Create dir.sha256 ---------------------------------------------------
-
-    f <- file(  file.path( dir, "file.sha256"), open = "rb" )
-    hash <- as.character( openssl::sha256( f ) )
-    close(f)
-    rm(f)
-    hash <- paste(hash, "file.sha256", sep = "  ")
-    f <- file( file.path( output, dirhash ) )
-    writeLines(
-      text = hash,
-      con = f
-    )
-    close(f)
-    rm(f)
-  }
-
-# Iterate through subdirectories ------------------------------------------
-
-  dir.create( output, showWarnings = FALSE, recursive = TRUE )
+  # dir.create( output, showWarnings = FALSE, recursive = TRUE )
   ##
-  dirs <- list.dirs( input, recursive = TRUE )
-  hash_in_dir(
-    dir = dirs[1],
-    recursiveHash = TRUE
+  tmpdir <- tempfile()
+  dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
+  ##
+  .hash_dir_tree(root = input, output = tmpdir)
+  ##
+  dir.create(output, recursive = TRUE, showWarnings = FALSE)
+  file.copy(
+    from = file.path(tmpdir, "."),
+    to = output,
+    recursive = TRUE,
+    copy.date = TRUE
   )
-  for (d in dirs[-1]) {
-    hash_in_dir(
-      dir = d,
-      recursiveHash = FALSE
-    )
-  }
-
-# finalize ----------------------------------------------------------------
-
+  unlink(tmpdir)
+  ##
   invisible(TRUE)
 
 }
+
+
+
+#' Create hash of all files in the input directory and stores result in a file
+#' named \code{file.sha25} in the \code{output} directory
+#'
+#' @param input directory to hash
+#' @param output where hash file should be stored
+#' @param recursive if \code{TRUE}, directury will be recursively scanned for files to hash
+#'
+#' @return
+#'
+.hash_dir <- function(
+  input,
+  output,
+  recursive = FALSE
+) {
+  filehash <- file.path( output, "file.sha256" )
+
+  files <- setdiff(
+    list.files(
+      path = input,
+      full.names = recursive,
+      include.dirs = FALSE,
+      recursive = recursive
+      ),
+    list.dirs(
+      path = input,
+      full.names = recursive,
+      recursive = recursive
+    )
+  )
+
+  if (length(files) == 0) {
+    return()
+  }
+  files <- sort(files)
+
+  # Hash create files.sha256 ----------------------------------------------
+
+  hash <- lapply(
+    files,
+    function(fn) {
+      f <- file(
+        ifelse(
+          recursive,
+          fn,
+          file.path(input, fn)
+        ),
+        open = "rb"
+      )
+      hash <- as.character( openssl::sha256( f ) )
+      close(f)
+      rm(f)
+      hash <- paste(hash, fn, sep = "  ")
+    }
+  )
+  hash <- simplify2array(hash)
+  dir.create( output, recursive = TRUE, showWarnings = FALSE )
+  file.create(filehash)
+  f <- file( filehash )
+  writeLines(
+    text = hash,
+    con = f
+  )
+  close(f)
+  rm(f)
+
+  invisible( filehash )
+}
+
+
+#' Title
+#'
+#' @param root
+#' @param output
+#'
+#' @return
+#'
+.hash_dir_tree <- function(
+  root,
+  output
+) {
+  dirs <- list.dirs(
+    path = root,
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  treehash <- file.path( output, "tree.sha256" )
+
+  filehashes <- sapply(
+    dirs,
+    function(dir) {
+      .hash_dir(
+        input = dir,
+        output = file.path(output, gsub(root, "", dir))
+      )
+    }
+  )
+
+  filehashes <- unlist(filehashes)
+
+  hash <- lapply(
+    filehashes,
+    function(fn) {
+      f <- file( fn, open = "rb" )
+      hash <- as.character( openssl::sha256( f ) )
+      close(f)
+      rm(f)
+      hash <- paste(hash, gsub(output, ".", fn), sep = "  ")
+    }
+  )
+  hash <- simplify2array(hash)
+  dir.create( output, recursive = TRUE, showWarnings = FALSE )
+  file.create(treehash)
+  f <- file( treehash )
+  writeLines(
+    text = hash,
+    con = f
+  )
+  close(f)
+  rm(f)
+
+
+  invisible(treehash)
+
+}
+

@@ -2,7 +2,7 @@
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
-#' @importFrom LEEF add_pre_processor add_extractor
+#' @importFrom LEEF add_archiver
 #' @export
 #'
 register <- function(compression) {
@@ -12,10 +12,12 @@ register <- function(compression) {
 
   switch(
     compression,
-    "none" = LEEF::add_archiver( run_archive.none() ),
-    "tar" = LEEF::add_archiver( run_archive.tar() ),
-    "tar.gz" = LEEF::add_archiver( run_archive.tar.gz() ),
+    "none"   = LEEF::add_archiver( run_archive_none ),
+    "tar"    = LEEF::add_archiver( run_archive_tar ),
+    "tar.gz" = LEEF::add_archiver( run_archive_tar.gz ),
+    stop("not a valid compression!\n", "Allowed values are 'none', 'tar', und 'tar.gz'.")
   )
+
   ##
   invisible(TRUE)
 }
