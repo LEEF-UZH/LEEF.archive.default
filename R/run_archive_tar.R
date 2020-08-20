@@ -1,29 +1,18 @@
 #' Compress and checksum the \code{DATA_options("new_data_path")}
 #'
-#' Compress all files in \code{DATA_options("new_data_path")} into the directory \code{"NEW_DATA_PATH/../archive"}
-#'
-#' @param compression which compression should be used for the archive. Thge following values are supported at the moment:
-#' \describe{
-#'    \item{\code{"none"}}{copy the to be imported data folder into archive}
-#'    \item{\code{"tar"}}{tar the to be imported data folder}
-#'    \item{\code{"tar.gz"}}{tar and gz compress the to be imported data folder}
-#' }
-#' Default is the value as defined in the config file.
-#'
-#' @param get_tts if \code{TRUE}, a Trusted Time Stamp will be obtained from OriginStamp
-#'
-#' @return invisibly returns the name of the archivefile
+#' @return \code{run_archive_tar()}: invisibly returns the name of the archive file
 #' @importFrom openssl sha256
 #' @importFrom utils tar
-#' @importFrom yaml write_yaml
+#'
+#' @rdname run_archive
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' run_archive(
-#'   compression = "tar",
-#'   get_tts = TRUE
+#' run_archive.tar(
+#'   input = "./input",
+#'   output = "./output"
 #' )
 #' }
 run_archive_tar <- function(

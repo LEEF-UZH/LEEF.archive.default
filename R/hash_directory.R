@@ -52,9 +52,9 @@ hash_directory <- function(
 #'
 #' @param input directory to hash
 #' @param output where hash file should be stored
-#' @param recursive if \code{TRUE}, directury will be recursively scanned for files to hash
+#' @param recursive if \code{TRUE}, directory will be recursively scanned for files to hash
 #'
-#' @return
+#' @return invisibly the file name and path of the hash file \code{file.sha.256}
 #'
 .hash_dir <- function(
   input,
@@ -116,12 +116,12 @@ hash_directory <- function(
 }
 
 
-#' Title
+#' hash a directory tree
 #'
-#' @param root
-#' @param output
+#' @param root root of the directory tree to be hashed
+#' @param output directory containing the hash files in the tree structure
 #'
-#' @return
+#' @return invisibly the file name and path of the hash file \code{tree.sha.256}
 #'
 .hash_dir_tree <- function(
   root,

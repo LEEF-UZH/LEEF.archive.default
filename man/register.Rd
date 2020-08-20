@@ -6,6 +6,14 @@
 \usage{
 register(compression)
 }
+\arguments{
+\item{compression}{the compression algorithm to be used. This can be:
+\itemize{
+\item \emph{none}: no compression, multiple files (copy of directory to be archived) - the fastest
+\item \emph{tar}: no compression, single file - intermediate speed
+\item \emph{tar.gz.max}: gz compression level 9 - very slow
+}}
+}
 \value{
 invisibly \code{TRUE} when completed successful
 }

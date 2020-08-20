@@ -2,16 +2,18 @@
 % Please edit documentation in R/hash_directory.R
 \name{.hash_dir_tree}
 \alias{.hash_dir_tree}
-\title{Title}
+\title{hash a directory tree}
 \usage{
 .hash_dir_tree(root, output)
 }
 \arguments{
-\item{output}{}
+\item{root}{root of the directory tree to be hashed}
+
+\item{output}{directory containing the hash files in the tree structure}
 }
 \value{
-
+invisibly the file name and path of the hash file \code{tree.sha.256}
 }
 \description{
-Title
+hash a directory tree
 }

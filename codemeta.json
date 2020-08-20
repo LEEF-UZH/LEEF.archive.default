@@ -39,8 +39,8 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "LEEF.Data",
-      "name": "LEEF.Data"
+      "identifier": "LEEF",
+      "name": "LEEF"
     }
   ],
   "softwareRequirements": [
@@ -52,27 +52,15 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "dplyr",
-      "name": "dplyr",
+      "identifier": "openssl",
+      "name": "openssl",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=dplyr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "readr",
-      "name": "readr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=readr"
+      "sameAs": "https://CRAN.R-project.org/package=openssl"
     }
   ],
   "readme": "https://github.com/LEEF-UZH/LEEF.archive.default/blob/master/Readme.md",

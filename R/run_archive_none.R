@@ -1,10 +1,13 @@
-#' Archive all files and folders in \code{input} to \code{output} without compression
+#' Archive all files and folders in \code{input} to \code{output}
 #'
+#' These functions archive the \code{input} folder, create checksums, and, depending on the function, compress the archive.
 #'
 #' @param input directory which to archive
-#' @param output directory in which the arcival directory will be created
+#' @param output directory in which the archive will be created
 #'
-#' @return invisibly returns the name of the archivedir
+#' @return \code{run_archive_none()}: invisibly returns the name of the archive directory
+#'
+#' @rdname run_archive
 #'
 #' @export
 #'

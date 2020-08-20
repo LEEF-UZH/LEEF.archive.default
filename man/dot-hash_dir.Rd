@@ -12,10 +12,10 @@ named \code{file.sha25} in the \code{output} directory}
 
 \item{output}{where hash file should be stored}
 
-\item{recursive}{if \code{TRUE}, directury will be recursively scanned for files to hash}
+\item{recursive}{if \code{TRUE}, directory will be recursively scanned for files to hash}
 }
 \value{
-
+invisibly the file name and path of the hash file \code{file.sha.256}
 }
 \description{
 Create hash of all files in the input directory and stores result in a file
