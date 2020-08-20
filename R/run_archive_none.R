@@ -9,6 +9,8 @@
 #'
 #' @rdname run_archive
 #'
+#' @importFrom yaml yaml.load_file
+#'
 #' @export
 #'
 #' @examples
@@ -22,10 +24,15 @@ run_archive_none <- function(
   input,
   output
 ){
-  timestamp <- format( Sys.time() , "%Y-%m-%d--%H-%M-%S" )
+
+  smdf <- file.path(input, "sample_metadata.yml")
+  smd <- yaml::yaml.load_file( smdf )
+
+  timestamp <- smd$timestamp
+
   ##
 
-  archivename <- options()$LEEF$archive$name
+  archivename <- options()$LEEF$name
   if (is.null(archivename)) {
     archivename <- "none"
   }
@@ -35,6 +42,10 @@ run_archive_none <- function(
     sep = "."
   )
   archivedir <- file.path( output, archivename )
+
+  unlink( archivedir, recursive = TRUE, force = TRUE, recursive = TRUE )
+  dir.create( archivedir, showWarnings = FALSE, recursive = TRUE)
+
   ##
   hashdir <- tempfile()
   hash_directory(
@@ -43,8 +54,6 @@ run_archive_none <- function(
   )
   ##
 
-  dir.create( path = archivedir, showWarnings = FALSE, recursive = TRUE )
-  ##
   file.copy(
     from = file.path( input, "." ),
     to = archivedir,
