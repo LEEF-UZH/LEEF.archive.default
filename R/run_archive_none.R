@@ -43,7 +43,7 @@ run_archive_none <- function(
   )
   archivedir <- file.path( output, archivename )
 
-  unlink( archivedir, recursive = TRUE, force = TRUE, recursive = TRUE )
+  unlink( archivedir, recursive = TRUE, force = TRUE )
   dir.create( archivedir, showWarnings = FALSE, recursive = TRUE)
 
   ##
