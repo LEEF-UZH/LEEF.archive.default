@@ -36,13 +36,7 @@
       "email": "Rainer.Krug@uzh.zch"
     }
   ],
-  "softwareSuggestions": [
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "LEEF",
-      "name": "LEEF"
-    }
-  ],
+  "softwareSuggestions": [],
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
