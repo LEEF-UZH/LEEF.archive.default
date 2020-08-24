@@ -7,6 +7,7 @@
 ## Temporary folder
 ^tmp$
 ^temp$
+^test_zenodo\..$
 
 ## Example Data Folder
 ^0\.raw\.data$
