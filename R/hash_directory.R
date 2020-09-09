@@ -172,3 +172,27 @@ hash_directory <- function(
 
 }
 
+#' get timestamp for file when asked for
+#'
+#' @param file file name
+#'
+#' @return the content of the response
+.get_tts <- function(file) {
+
+  if( !isTRUE(getOption("LEEF")$tts$create) ){
+    invisible(NULL)
+  }
+
+  result <- ROriginStamp::create_timestamp(
+    hash = ROriginStamp::hash_file( file ),
+    comment = paste(getOption("LEEF")$name, ),
+    notifications = data.frame(
+      currency = 0,
+      notification_type = getOption("LEEF")$tts$notofication$notification_type,
+      target = getOption("LEEF")$tts$notofication$target
+    )
+  )
+
+  return(result$content)
+
+}
