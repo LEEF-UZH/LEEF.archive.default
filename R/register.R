@@ -1,4 +1,4 @@
-#' Register the processing of respirometer data in the LEEF package
+#' Register the processing of o2meter data in the LEEF package
 #'
 #' @param compression the compression algorithm to be used. This can be:
 #'   - *none*: no compression, multiple files (copy of directory to be archived) - the fastest
