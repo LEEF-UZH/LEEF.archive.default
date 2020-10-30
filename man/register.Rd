@@ -2,7 +2,7 @@
 % Please edit documentation in R/register.R
 \name{register}
 \alias{register}
-\title{Register the processing of respirometer data in the LEEF package}
+\title{Register the processing of o2meter data in the LEEF package}
 \usage{
 register(compression)
 }
@@ -18,5 +18,5 @@ register(compression)
 invisibly \code{TRUE} when completed successful
 }
 \description{
-Register the processing of respirometer data in the LEEF package
+Register the processing of o2meter data in the LEEF package
 }
