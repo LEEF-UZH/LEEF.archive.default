@@ -19,6 +19,7 @@ register <- function(compression) {
     "none"   = LEEF::add_archiver( run_archive_none ),
     "tar"    = LEEF::add_archiver( run_archive_tar ),
     "tar.gz" = LEEF::add_archiver( run_archive_tar.gz ),
+    "tar_subdir" = LEEF::add_archiver( run_archive_tar_subdir ),
     "tar.gz_subdir" = LEEF::add_archiver( run_archive_tar.gz_subdir ),
     stop("not a valid compression!\n", "Allowed values are 'none', 'tar', und 'tar.gz.max'.")
   )
