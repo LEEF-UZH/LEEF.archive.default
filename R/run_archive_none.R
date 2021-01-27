@@ -24,11 +24,12 @@ run_archive_none <- function(
   input,
   output
 ){
-
-  smdf <- file.path(input, "sample_metadata.yml")
-  smd <- yaml::yaml.load_file( smdf )
-
-  timestamp <- smd$timestamp
+	
+	if (file.exists(file.path(input, "sample_metadata.yml"))) {
+	  timestamp <- yaml::yaml.load_file( file.path(input, "sample_metadata.yml") )$timestamp
+	} else {
+	  timestamp <- yaml::yaml.load_file( file.path(input, "..", "00.general.parameter", "sample_metadata.yml") )$timestamp
+	}
 
   ##
 
