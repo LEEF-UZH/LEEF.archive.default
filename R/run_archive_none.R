@@ -24,7 +24,7 @@ run_archive_none <- function(
   input,
   output
 ){
-	
+
 	if (file.exists(file.path(input, "sample_metadata.yml"))) {
 	  timestamp <- yaml::yaml.load_file( file.path(input, "sample_metadata.yml") )$timestamp
 	} else {
@@ -58,6 +58,14 @@ run_archive_none <- function(
   file.copy(
     from = file.path( input, "." ),
     to = archivedir,
+    recursive = TRUE,
+    copy.date = TRUE
+  )
+  ##
+  dir.create(file.path(archivedir, "00.general.parameter"))
+  file.copy(
+    from = file.path(input, "..", "00.general.parameter", "."),
+    to = file.path(archivedir, "00.general.parameter", ""),
     recursive = TRUE,
     copy.date = TRUE
   )
