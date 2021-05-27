@@ -13,7 +13,9 @@ Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
-Imports: openssl
+Imports: 
+  openssl,
+  yaml
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
