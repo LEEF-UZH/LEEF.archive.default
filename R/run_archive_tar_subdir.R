@@ -66,7 +66,8 @@ run_archive_tar_subdir <- function(
         files = file.path(".", mes)
       )
       setwd(oldwd)
-    }
+    },
+    mc.cores = getOption("mc.cores")
   )
 
 # Hash files -----------------------------------------------------------
@@ -94,7 +95,8 @@ run_archive_tar_subdir <- function(
       )
       close(f)
       rm(f)
-    }
+    },
+    mc.cores = getOption("mc.cores")
   )
 
 # Copy to output ----------------------------------------------------------

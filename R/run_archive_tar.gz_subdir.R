@@ -67,7 +67,8 @@ run_archive_tar.gz_subdir <- function(
         compression_level = 9
       )
       setwd(oldwd)
-    }
+    },
+    mc.cores = getOption("mc.cores")
   )
 
 # Hash files -----------------------------------------------------------
@@ -95,7 +96,8 @@ run_archive_tar.gz_subdir <- function(
       )
       close(f)
       rm(f)
-    }
+    },
+    mc.cores = getOption("mc.cores")
   )
 
 # Copy to output ----------------------------------------------------------
