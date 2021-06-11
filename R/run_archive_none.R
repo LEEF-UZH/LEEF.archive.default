@@ -48,7 +48,8 @@ run_archive_none <- function(
   dir.create( archivedir, showWarnings = FALSE, recursive = TRUE)
 
   ##
-  hashdir <- tempfile()
+  hashdir <- file.path(output, "tmp")
+
   hash_directory(
     input = input,
     output = hashdir

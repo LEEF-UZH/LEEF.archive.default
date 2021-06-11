@@ -24,15 +24,16 @@ run_archive_tar.gz <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive_none( input = input, output = tempfile() )
+  input <- run_archive_none( input = input, output = file.path(output, "tmp") )
   ##
   archivename <- paste(
     basename(input),
     "tar.gz",
     sep = "."
   )
-  tmpdir <- tempfile()
-  dir.create( tmpdir)
+  tmpdir <- file.path(output, "tmp")
+  dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
+
   tarfile <- file.path( tmpdir, archivename)
 
   ##

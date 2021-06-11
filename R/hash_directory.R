@@ -27,7 +27,7 @@ hash_directory <- function(
 ){
   # dir.create( output, showWarnings = FALSE, recursive = TRUE )
   ##
-  tmpdir <- tempfile()
+  tmpdir <- file.path(output, "tmp")
   dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
   ##
   .hash_dir_tree(root = input, output = tmpdir)

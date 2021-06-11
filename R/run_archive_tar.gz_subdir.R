@@ -25,9 +25,9 @@ run_archive_tar.gz_subdir <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive_none( input = input, output = tempfile() )
+  input <- run_archive_none(input = input, output = file.path(output, "tmp"))
   ##
-  tmpdir <- tempfile()
+  tmpdir <- file.path(output, "tmp")
   dir.create( tmpdir)
   ##
 
