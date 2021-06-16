@@ -25,20 +25,29 @@ run_archive_none <- function(
   output
 ){
 
-	if (file.exists(file.path(input, "sample_metadata.yml"))) {
+  archivename <- options()$LEEF$name
+  archivedir <- "."
+  if (is.null(archivename)) {
+    archivename <- "none"
+  }
+  if (file.exists(file.path(input, "sample_metadata.yml"))) {
 	  timestamp <- yaml::yaml.load_file( file.path(input, "sample_metadata.yml") )$timestamp
-	} else {
+	  archivedir <- basename(input)
+  } else if (file.exists(file.path(input, "..", "00.general.parameter", "sample_metadata.yml"))) {
 	  timestamp <- yaml::yaml.load_file( file.path(input, "..", "00.general.parameter", "sample_metadata.yml") )$timestamp
+	  archivedir <- basename(input)
+  } else {
+	  timestamp <- yaml::yaml.load_file( file.path(input, "..", "..", "00.general.parameter", "sample_metadata.yml") )$timestamp
+	  archivedir <- paste0(basename(dirname(input)), ".", basename(input))
 	}
 
   ##
 
-  archivename <- options()$LEEF$name
-  if (is.null(archivename)) {
-    archivename <- "none"
-  }
+
+
   archivename <- paste(
     archivename,
+    archivedir,
     timestamp,
     sep = "."
   )
@@ -48,13 +57,6 @@ run_archive_none <- function(
   dir.create( archivedir, showWarnings = FALSE, recursive = TRUE)
 
   ##
-  hashdir <- file.path(output, "tmp")
-
-  hash_directory(
-    input = input,
-    output = hashdir
-  )
-  ##
 
   file.copy(
     from = file.path( input, "." ),
@@ -62,22 +64,35 @@ run_archive_none <- function(
     recursive = TRUE,
     copy.date = TRUE
   )
+
   ##
+
   dir.create(file.path(archivedir, "00.general.parameter"))
-  file.copy(
-    from = file.path(input, "..", "00.general.parameter", "."),
-    to = file.path(archivedir, "00.general.parameter", ""),
-    recursive = TRUE,
-    copy.date = TRUE
-  )
+  if (file.exists(file.path(input, "..", "00.general.parameter", "sample_metadata.yml"))) {
+    file.copy(
+      from = file.path(input, "..", "00.general.parameter", "."),
+      to = file.path(archivedir, "00.general.parameter", ""),
+      recursive = TRUE,
+      copy.date = TRUE
+    )
+  } else {
+    file.copy(
+      from = file.path(input, "..", "..", "00.general.parameter", "."),
+      to = file.path(archivedir, "00.general.parameter", ""),
+      recursive = TRUE,
+      copy.date = TRUE
+    )
+  }
+
+
+
   ##
-  file.copy(
-    from = file.path( hashdir, "." ),
-    to = archivedir,
-    recursive = TRUE,
-    copy.date = TRUE
+
+  hash_directory(
+    input = archivedir,
+    output = archivedir
   )
-  unlink(hashdir, recursive = TRUE)
+
   ##
   invisible(normalizePath(archivedir))
 }

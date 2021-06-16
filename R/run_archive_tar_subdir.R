@@ -3,7 +3,6 @@
 #' @return \code{run_archive_tar()}: invisibly returns the name of the archive file
 #' @importFrom openssl sha256
 #' @importFrom utils tar
-#' @importFrom parallel mclapply
 #'
 #' @rdname run_archive
 #'
@@ -25,78 +24,19 @@ run_archive_tar_subdir <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive_none( input = input, output = file.path(output, "tmp") )
-  ##
   tmpdir <- file.path(output, "tmp")
-  dir.create( tmpdir)
+  dir.create( tmpdir, recursive = TRUE, showWarnings = FALSE)
   ##
 
-  measurements <- list.dirs(  input, recursive = FALSE, full.names = FALSE )
-  files <-        list.files( input, recursive = FALSE, full.names = FALSE )
-  files <- files[ !(files %in% measurements) ]
-
-# Copy files in input --------------------------------------------------
-
-  file.copy(
-    from = file.path(input, files),
-    to = tmpdir
-  )
-
-
-# Remove hash files -------------------------------------------------------
-
-  hashfiles <- list.files( tmpdir, pattern = "*.sha256", recursive = FALSE, full.names = TRUE )
-  unlink( hashfiles )
+  measurements <- list.dirs(  input, recursive = FALSE, full.names = TRUE )
 
 # Tar input measurements in input -------------------------------------
 
-  parallel::mclapply(
+  lapply(
     measurements,
     function(mes) {
-      archivename <- paste(
-        basename(input),
-        mes,
-        "tar",
-        sep = "."
-      )
-      tarfile <- file.path( tmpdir, archivename)
-      oldwd <- setwd(input)
-      utils::tar(
-        tarfile = tarfile,
-        files = file.path(".", mes)
-      )
-      setwd(oldwd)
-    },
-    mc.cores = getOption("mc.cores")
-  )
-
-# Hash files -----------------------------------------------------------
-
-  files <- list.files(
-    tmpdir,
-    recursive = FALSE,
-    full.names = FALSE
-  )
-
-  parallel::mclapply(
-    files,
-    function(fn) {
-      f <- file( file.path(tmpdir, fn), open = "rb" )
-      hash <- as.character( openssl::sha256( f ) )
-      close(f)
-      rm(f)
-      hashln <- paste(hash, fn, sep = "  ")
-      hashfile <- paste0( file.path(tmpdir, fn), ".sha256")
-      file.create( hashfile )
-      f <- file( hashfile )
-      writeLines(
-        text = hashln,
-        con = f
-      )
-      close(f)
-      rm(f)
-    },
-    mc.cores = getOption("mc.cores")
+      run_archive_tar(mes, tmpdir)
+    }
   )
 
 # Copy to output ----------------------------------------------------------
