@@ -31,7 +31,7 @@ run_archive_tar <- function(
     "tar",
     sep = "."
   )
-  tmpdir <- file.path(output, "tmp")
+  tmpdir <- file.path(output, "tmp_tar")
   dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
 
   tarfile <- file.path( tmpdir, archivename)
