@@ -6,7 +6,7 @@
 #' \code{dir.sh256}. It is calculating one checksum file for the whole dataset
 #' as well which is stored in the ToBeImported directory.
 #' @param input dircetory of which the hashes should be calculated
-#' @param output directory in which the hash files should be written
+#' @param hashfile File name of the hash file. Defaults to \code{file.sha256} in the input directory
 #'
 #' @return invisibly \code{TRUE}
 #'
@@ -17,18 +17,18 @@
 #' \dontrun{
 #' hash_directory(
 #'   input = "./input",
-#'   output = "./output"
+#'   hashfile = file.path(input, "file.hash")
 #' )
 #' }
 hash_directory <- function(
   input,
-  output
+  hashfile = file.path(input, "file.hash")
 ){
-  dir.create(output, recursive = TRUE, showWarnings = FALSE)
+  dir.create(basename(hashfile), recursive = TRUE, showWarnings = FALSE)
   tmp_hash <-  .hash_recursively(root = input)
   file.copy(
-    from =tmp_hash,
-    to = file.path(output, "file.sha256"),
+    from = tmp_hash,
+    to = hashfile,
     overwrite = TRUE
   )
   unlink(tmp_hash)
@@ -42,7 +42,7 @@ hash_directory <- function(
 #' @param root root of the directory tree to be hashed
 #' @param output directory containing the hash files in the tree structure
 #'
-#' @returnfile name and path of the hash file \code{file.sha.256}
+#' @return file name and path of the hash file \code{file.sha.256}
 #'
 #' @importFrom openssl sha256
 #'
@@ -76,27 +76,27 @@ hash_directory <- function(
 }
 
 
-#' get timestamp for file when asked for
+#' #' get timestamp for file when asked for
+#' #'
+#' #' @param file file name
+#' #'
+#' #' @return the content of the response
+#' .get_tts <- function(file) {
 #'
-#' @param file file name
+#'   if( !isTRUE(getOption("LEEF")$tts$create) ){
+#'     invisible(NULL)
+#'   }
 #'
-#' @return the content of the response
-.get_tts <- function(file) {
-
-  if( !isTRUE(getOption("LEEF")$tts$create) ){
-    invisible(NULL)
-  }
-
-  result <- ROriginStamp::create_timestamp(
-    hash = ROriginStamp::hash_file( file ),
-    comment = paste(getOption("LEEF")$name, ),
-    notifications = data.frame(
-      currency = 0,
-      notification_type = getOption("LEEF")$tts$notofication$notification_type,
-      target = getOption("LEEF")$tts$notofication$target
-    )
-  )
-
-  return(result$content)
-
-}
+#'   result <- ROriginStamp::create_timestamp(
+#'     hash = ROriginStamp::hash_file( file ),
+#'     comment = paste(getOption("LEEF")$name, ),
+#'     notifications = data.frame(
+#'       currency = 0,
+#'       notification_type = getOption("LEEF")$tts$notofication$notification_type,
+#'       target = getOption("LEEF")$tts$notofication$target
+#'     )
+#'   )
+#'
+#'   return(result$content)
+#'
+#' }

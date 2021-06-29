@@ -4,12 +4,12 @@
 \alias{hash_directory}
 \title{Create hash file of input directory and save to file in output directory}
 \usage{
-hash_directory(input, output)
+hash_directory(input, hashfile = file.path(input, "file.hash"))
 }
 \arguments{
 \item{input}{dircetory of which the hashes should be calculated}
 
-\item{output}{directory in which the hash files should be written}
+\item{hashfile}{File name of the hash file. Defaults to \code{file.sha256} in the input directory}
 }
 \value{
 invisibly \code{TRUE}
@@ -25,7 +25,7 @@ as well which is stored in the ToBeImported directory.
 \dontrun{
 hash_directory(
   input = "./input",
-  output = "./output"
+  hashfile = file.path(input, "file.hash")
 )
 }
 }

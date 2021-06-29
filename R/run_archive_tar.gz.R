@@ -77,7 +77,7 @@ run_archive_tar.gz <- function(
   )
 
   unlink(tmpdir, recursive = TRUE)
-  unlink(input, recursive = TRUE)
+  unlink(file.path(output, "tmp_out_none"), recursive = TRUE)
 
 # Return ------------------------------------------------------------------
 

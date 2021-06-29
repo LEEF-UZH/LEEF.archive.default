@@ -3,6 +3,7 @@
 export(hash_directory)
 export(register)
 export(run_archive_none)
+export(run_archive_none_subdir)
 export(run_archive_tar)
 export(run_archive_tar.gz)
 export(run_archive_tar.gz_subdir)

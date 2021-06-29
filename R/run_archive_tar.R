@@ -24,14 +24,19 @@ run_archive_tar <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive_none( input = input, output = file.path(output, "tmp") )
-  ##
-  archivename <- paste(
-    basename(input),
-    "tar",
-    sep = "."
-  )
   tmpdir <- file.path(output, "tmp_tar")
+
+  input <- run_archive_none( input = input, output = file.path(tmpdir, "tmp_none") )
+  ##
+  archivename <- normalizePath(
+    paste(
+      basename(input),
+      "tar",
+      sep = "."
+    ),
+    mustWork = FALSE
+  )
+
   dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
 
   tarfile <- file.path( tmpdir, archivename)
@@ -74,7 +79,8 @@ run_archive_tar <- function(
     copy.date = TRUE
   )
 
-  unlink(dirname(tarfile), recursive = TRUE)
+  unlink(tmpdir, recursive = TRUE)
+  unlink(file.path(output, "tmp_none"), recursive = TRUE)
 
 # Return ------------------------------------------------------------------
 

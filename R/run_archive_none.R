@@ -88,7 +88,7 @@ run_archive_none <- function(
 
   hash_directory(
     input = archivedir,
-    output = archivedir
+    hashfile = file.path(archivedir, "file.sha256")
   )
 
   ##

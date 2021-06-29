@@ -10,12 +10,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' run_archive.tar(
+#' run_archive_none_subdir(
 #'   input = "./input",
 #'   output = "./output"
 #' )
 #' }
-run_archive_tar.gz_subdir <- function(
+run_archive_none_subdir <- function(
   input,
   output
 ){
@@ -24,18 +24,18 @@ run_archive_tar.gz_subdir <- function(
     setwd(oldwd)
   )
   ##
-  tmpdir <- file.path(output, "tmp_tar.gz_subdir")
+  tmpdir <- file.path(output, "tmp_none_subdir")
   dir.create( tmpdir, recursive = TRUE, showWarnings = FALSE)
   ##
 
   measurements <- list.dirs(  input, recursive = FALSE, full.names = TRUE )
 
-  # archive_tar.gz -------------------------------------
+  # archive_none -------------------------------------
 
   lapply(
     measurements,
     function(mes) {
-      run_archive_tar.gz(mes, tmpdir)
+      run_archive_none(mes, tmpdir)
     }
   )
 

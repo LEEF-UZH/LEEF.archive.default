@@ -11,6 +11,9 @@
 
 \item{output}{directory containing the hash files in the tree structure}
 }
+\value{
+file name and path of the hash file \code{file.sha.256}
+}
 \description{
 calculate sha256 hashes recursively for all files in directory
 }

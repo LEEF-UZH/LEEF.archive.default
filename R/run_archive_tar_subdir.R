@@ -24,13 +24,13 @@ run_archive_tar_subdir <- function(
     setwd(oldwd)
   )
   ##
-  tmpdir <- file.path(output, "tmp")
+  tmpdir <- file.path(output, "tmp_tar_subdir")
   dir.create( tmpdir, recursive = TRUE, showWarnings = FALSE)
   ##
 
   measurements <- list.dirs(  input, recursive = FALSE, full.names = TRUE )
 
-# Tar input measurements in input -------------------------------------
+  # archive_tar -------------------------------------
 
   lapply(
     measurements,
@@ -39,7 +39,7 @@ run_archive_tar_subdir <- function(
     }
   )
 
-# Copy to output ----------------------------------------------------------
+  # Copy to output ----------------------------------------------------------
 
   dir.create( path = output, showWarnings = FALSE, recursive = TRUE )
   ##
@@ -52,7 +52,7 @@ run_archive_tar_subdir <- function(
 
   unlink( tmpdir, recursive = TRUE )
 
-# Return ------------------------------------------------------------------
+  # Return ------------------------------------------------------------------
 
   invisible( output )
 }
