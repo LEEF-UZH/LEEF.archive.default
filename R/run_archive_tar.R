@@ -19,6 +19,8 @@ run_archive_tar <- function(
   input,
   output
 ){
+  input <- file.path(input, ".")
+
   oldwd <- getwd()
   on.exit(
     setwd(oldwd)
