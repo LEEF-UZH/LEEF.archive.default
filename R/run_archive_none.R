@@ -63,26 +63,6 @@ run_archive_none <- function(
     copy.date = TRUE
   )
 
-  ##
-
-  dir.create(file.path(archivedir, "00.general.parameter"))
-  if (file.exists(file.path(input, "..", "00.general.parameter", "sample_metadata.yml"))) {
-    file.copy(
-      from = file.path(input, "..", "00.general.parameter", "."),
-      to = file.path(archivedir, "00.general.parameter", ""),
-      recursive = TRUE,
-      copy.date = TRUE
-    )
-  } else {
-    file.copy(
-      from = file.path(input, "..", "..", "00.general.parameter", "."),
-      to = file.path(archivedir, "00.general.parameter", ""),
-      recursive = TRUE,
-      copy.date = TRUE
-    )
-  }
-
-
 
   ##
 

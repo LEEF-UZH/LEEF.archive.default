@@ -26,7 +26,7 @@ run_archive_tar.gz <- function(
     setwd(oldwd)
   )
   ##
-  input <- run_archive_none( input = input, output = file.path(output, "tmp_out_none") )
+  input <- run_archive_none( input = input, output = file.path(output, "tmp_out_none", ".") )
   ##
   archivename <- paste(
     basename(input),
@@ -43,6 +43,12 @@ run_archive_tar.gz <- function(
 # Tar input directory -----------------------------------------------------
 
   oldwd <- setwd(dirname(input))
+  # message("DEBUG INPUT ", dirname(input))
+  # message("DEBUG GETWD()", getwd())
+  # message("DEBUG FILES", paste(list.files("."), collapse = ", "))
+  # message("DEBUG DIRNAME(TARFILE)", dirname(tarfile))
+  # message("DEBUG DIRNAME(TARFILE) EXISTS", dir.exists(dirname(tarfile)))
+  # message("DEBUG TARFILE", tarfile)
   utils::tar(
     tarfile = tarfile,
     files = "./",
@@ -50,6 +56,7 @@ run_archive_tar.gz <- function(
     compression_level = 9
   )
   setwd(oldwd)
+  message("DEBUG ", getwd())
 
 # Hash tar file -----------------------------------------------------------
 

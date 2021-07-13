@@ -28,7 +28,7 @@ run_archive_tar <- function(
   ##
   tmpdir <- file.path(output, "tmp_tar")
 
-  input <- run_archive_none( input = input, output = file.path(tmpdir, "tmp_none") )
+  input <- run_archive_none( input = input, output = file.path(tmpdir, "tmp_none", ".") )
   ##
   archivename <- normalizePath(
     paste(
