@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.archive.default",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.archive.default/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.15",
+  "version": "0.8.16",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -75,5 +75,5 @@
     }
   ],
   "readme": "https://github.com/LEEF-UZH/LEEF.archive.default/blob/master/Readme.md",
-  "fileSize": "18.74KB"
+  "fileSize": "18.831KB"
 }

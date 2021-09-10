@@ -55,23 +55,25 @@ hash_directory <- function(
     recursive = TRUE,
     full.names = FALSE
   )
-
-  hashes <- sapply(
-    files,
-    function(fn) {
-      f <- file(
-        file.path(root, fn),
-        open = "rb"
-      )
-      hash <- as.character( openssl::sha256( f ) )
-      close(f)
-      rm(f)
-      hash <- paste(hash, fn, sep = "  ")
-      return(hash)
-    }
-  )
-  writeLines(hashes, hashfile)
-
+  if (length(files) > 0) {
+    hashes <- sapply(
+      files,
+      function(fn) {
+        f <- file(
+          file.path(root, fn),
+          open = "rb"
+        )
+        hash <- as.character( openssl::sha256( f ) )
+        close(f)
+        rm(f)
+        hash <- paste(hash, fn, sep = "  ")
+        return(hash)
+      }
+    )
+    writeLines(hashes, hashfile)
+  } else {
+    hashfile <- NULL
+  }
   return(hashfile)
 }
 
